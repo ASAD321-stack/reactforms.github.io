@@ -1,38 +1,100 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
+import { Navbar, Dropdown } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+
+import './App.css';
+
 
 const Login = () => {
-    return (
-        <div>
-            <section id="form-3">
-                <div className="container">
-                    <div className="row">
+	const navigate = useNavigate();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-                        <div className="col-md-6 col-sm-12 pic-sec">
+	const loginUser = async (e) => {
+		e.preventDefault();
+		const res = await fetch('/login', {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				email, password
+			})
+		});
 
-                        </div>
-                        <div className="col-md-6 col-sm-12 col-login-2">
-                            <img src="./farrgo-removebg-preview.png" width="200px" alt="" />
-                            <h4>Log in</h4>
-                            <form>
+		const data = await res.json();
+		console.log(data);
 
-                                <div className="form-group">
-                                    <label for="Email">Email</label>
-                                    <input type="email" className="form-control" id="Email" placeholder="E-mail" require />
-                                </div>
-                                <div className="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" className="form-control" id="password" placeholder="Password" require />
-                                </div>
-                                <button className="btn btn-block ">Log in</button>
-                            </form>
+		if (res.status === 400 || !data) {
+			window.alert("Invalid Credentials");
+		}
+		else {
+			window.alert("login SuccessFully");
+			navigate('/');
+		}
+	}
 
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-        </div>
-    )
+
+	return (
+		<div className="hub">
+			<section id="form-3">
+				<div className="container ">
+					<div className="row">
+
+						<div className="col-md-6 col-sm-12 pic-sec">
+
+						</div>
+						<div className="col-md-6 col-sm-12 col-login-2">
+							<img src="./farrgo-removebg-preview.png" width="200px" alt="" />
+							<h4>Log in</h4>
+
+							<form method="POST">
+
+								<div className="form-group">
+									<label for="Email">Email</label>
+									<input type="email" name="email" id="email" className="form-control"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
+										placeholder="email"
+										require></input>
+								</div>
+								<div className="form-group">
+									<label for="password">Password</label>
+									<input type="password" name="password" id="password" className="form-control"
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
+										placeholder="password"
+										require></input>
+								</div>
+								<div className="feilds">
+									<div className="form-group">
+										<input type="submit" value="Login"
+											onClick={loginUser}
+											className="btn float-right login_btn"></input>
+									</div>
+								</div>
+								<div className="card-footer">
+									<div className="d-flex justify-content-center links">
+										Don't have an account?<Link to="/SignUp">Sign Up</Link>
+									</div>
+									<div className="d-flex justify-content-center">
+										<a href="#">Forgot your password?</a>
+									</div>
+								</div>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</section>
+
+		</div>
+	)
 }
 
 export default Login

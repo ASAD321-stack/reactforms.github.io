@@ -3,19 +3,19 @@
 
 
 .pic-sec{
-  background-image: url('./plane.jpg');
+  background-image: url('../plane.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
-body{
+.hub{
   background-color: rgba(179, 177, 177, 0.171);
   background-color: rgba(237, 236, 240, 0.918);
   height:100vh;
   justify-content: center;
+  align-items: center;
   display: flex;
-  align-items: center;   
   
 
 }
